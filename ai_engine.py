@@ -29,7 +29,7 @@ def generate_learning_strategy(nama, jurusan, prodi, semester, ipk_lama, ipk_tar
 
     try:
         genai.configure(api_key=api_key)
-        model = genai.GenerativeModel('gemini-2.5-flash')
+        model = genai.GenerativeModel('gemini-3.1-flash-lite')
         
         nama_panggilan = nama if nama else "Teman"
         
