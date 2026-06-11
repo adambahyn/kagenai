@@ -1,21 +1,19 @@
-FROM php:8.2-apache
+FROM php:8.2-cli
 
-# 1. Install Python 3, pip, dan dependensi sistem lainnya
+# 1. Install Python 3 dan pip
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
-    python3-venv \
     && rm -rf /var/lib/apt/lists/*
 
-# 2. Tentukan directory kerja Apache
-WORKDIR /var/www/html
+# 2. Tentukan directory kerja
+WORKDIR /app
 
-# 3. Salin seluruh file proyek ke dalam container
+# 3. Salin seluruh file proyek
 COPY . .
 
-# 4. Install dependensi Python menggunakan pip
-# Menggunakan --break-system-packages karena berada di dalam container terisolasi (Debian 12+)
+# 4. Install dependensi Python
 RUN pip3 install --no-cache-dir --break-system-packages -r requirements.txt
 
-# 5. Berikan izin eksekusi jika diperlukan dan ubah port apache jika Railway membutuhkan (Railway otomatis mendeteksi port 80/8080)
-EXPOSE 80
+# 5. Jalankan PHP Built-in Server menggunakan port dinamis dari Railway
+CMD php -S 0.0.0.0:$PORT
